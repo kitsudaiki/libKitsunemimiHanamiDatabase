@@ -1,5 +1,5 @@
 /**
- * @file       sql_table.cpp
+ * @file       hanami_sql_table.cpp
  *
  * @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
@@ -35,7 +35,7 @@ namespace Hanami
 {
 
 /**
- * @brief constructor
+ * @brief constructor, which add basic columns to the table
  *
  * @param db pointer to database
  */
@@ -45,6 +45,7 @@ HanamiSqlTable::HanamiSqlTable(Kitsunemimi::Sakura::SqlDatabase* db)
     DbHeaderEntry uuid;
     uuid.name = "uuid";
     uuid.maxLength = 36;
+    uuid.isPrimary = true;
     m_tableHeader.push_back(uuid);
 
     DbHeaderEntry projectUuid;
@@ -69,10 +70,12 @@ HanamiSqlTable::HanamiSqlTable(Kitsunemimi::Sakura::SqlDatabase* db)
 HanamiSqlTable::~HanamiSqlTable() {}
 
 /**
- * @brief HanamiSqlTable::add
- * @param values
- * @param error
- * @return
+ * @brief add a new row to the table
+ *
+ * @param values json-item with key-value-pairs, which should be added as new row to the table
+ * @param error reference for error-output
+ *
+ * @return true, if successful, else false
  */
 bool
 HanamiSqlTable::add(Json::JsonItem &values,
@@ -93,11 +96,14 @@ HanamiSqlTable::add(Json::JsonItem &values,
 }
 
 /**
- * @brief HanamiSqlTable::get
- * @param result
- * @param conditions
- * @param error
- * @return
+ * @brief get specif values for the table
+ *
+ * @param result reference for result-output
+ * @param conditions list of conditions to filter result
+ * @param error reference for error-output
+ * @param showHiddenValues true to also return as hidden marked values
+ *
+ * @return true, if successful, else false
  */
 bool
 HanamiSqlTable::get(Json::JsonItem &result,
@@ -109,10 +115,13 @@ HanamiSqlTable::get(Json::JsonItem &result,
 }
 
 /**
- * @brief HanamiSqlTable::getAll
- * @param result
- * @param error
- * @return
+ * @brief get all entries of the table
+ *
+ * @param result reference for result-output
+ * @param error reference for error-output
+ * @param showHiddenValues true to also return as hidden marked values
+ *
+ * @return true, if successful, else false
  */
 bool
 HanamiSqlTable::getAll(TableItem &result,
@@ -124,9 +133,11 @@ HanamiSqlTable::getAll(TableItem &result,
 
 /**
  * @brief HanamiSqlTable::del
+ *
  * @param conditions
- * @param error
- * @return
+ * @param error reference for error-output
+ *
+ * @return true, if successful, else false
  */
 bool
 HanamiSqlTable::del(const std::vector<RequestCondition> &conditions,
