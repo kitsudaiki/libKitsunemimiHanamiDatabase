@@ -1,2 +1,7 @@
 # Changelog
 
+## [0.1.0] - 2022-01-09
+
+### Added
+- basic version with add additional generic columns to each tagle and automatic generate a uuid for each new entry
+
