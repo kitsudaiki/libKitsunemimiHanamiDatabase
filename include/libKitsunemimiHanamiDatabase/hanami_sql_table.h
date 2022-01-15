@@ -51,15 +51,26 @@ public:
     virtual ~HanamiSqlTable();
 
     bool add(Json::JsonItem &values,
+             const std::string &userUuid,
+             const std::string &projectUuid,
              Kitsunemimi::ErrorContainer &error);
     bool get(Kitsunemimi::Json::JsonItem &result,
-             const std::vector<RequestCondition> &conditions,
+             const std::string &userUuid,
+             const std::string &projectUuid,
+             const bool isAdmin,
+             std::vector<RequestCondition> conditions,
              Kitsunemimi::ErrorContainer &error,
              const bool showHiddenValues = false);
     bool getAll(Kitsunemimi::TableItem &result,
+                const std::string &userUuid,
+                const std::string &projectUuid,
+                const bool isAdmin,
                 Kitsunemimi::ErrorContainer &error,
                 const bool showHiddenValues = false);
-    bool del(const std::vector<RequestCondition> &conditions,
+    bool del(std::vector<RequestCondition> conditions,
+             const std::string &userUuid,
+             const std::string &projectUuid,
+             const bool isAdmin,
              Kitsunemimi::ErrorContainer &error);
 };
 

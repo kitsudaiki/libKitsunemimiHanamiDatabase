@@ -79,6 +79,8 @@ HanamiSqlTable::~HanamiSqlTable() {}
  */
 bool
 HanamiSqlTable::add(Json::JsonItem &values,
+                    const std::string &userUuid,
+                    const std::string &projectUuid,
                     ErrorContainer &error)
 {
     // create uuid
@@ -92,6 +94,10 @@ HanamiSqlTable::add(Json::JsonItem &values,
     Kitsunemimi::toLowerCase(uuidString);
     values.insert("uuid", uuidString);
 
+    // add user-ids
+    values.insert("owner_uuid", userUuid, true);
+    values.insert("project_uuid", projectUuid, true);
+
     return insertToDb(values, error);
 }
 
@@ -99,6 +105,9 @@ HanamiSqlTable::add(Json::JsonItem &values,
  * @brief get specif values for the table
  *
  * @param result reference for result-output
+ * @param userUuid user-uuid to filter
+ * @param projectUuid project-uuid to filter
+ * @param isAdmin true, if use who makes request is admin
  * @param conditions list of conditions to filter result
  * @param error reference for error-output
  * @param showHiddenValues true to also return as hidden marked values
@@ -107,10 +116,19 @@ HanamiSqlTable::add(Json::JsonItem &values,
  */
 bool
 HanamiSqlTable::get(Json::JsonItem &result,
-                    const std::vector<RequestCondition> &conditions,
+                    const std::string &userUuid,
+                    const std::string &projectUuid,
+                    const bool isAdmin,
+                    std::vector<RequestCondition> conditions,
                     ErrorContainer &error,
                     const bool showHiddenValues)
 {
+    if(isAdmin == false)
+    {
+        conditions.emplace_back("owner_uuid", userUuid);
+        conditions.emplace_back("project_uuid", projectUuid);
+    }
+
     return getFromDb(result, conditions, error, showHiddenValues);
 }
 
@@ -118,6 +136,9 @@ HanamiSqlTable::get(Json::JsonItem &result,
  * @brief get all entries of the table
  *
  * @param result reference for result-output
+ * @param userUuid user-uuid to filter
+ * @param projectUuid project-uuid to filter
+ * @param isAdmin true, if use who makes request is admin
  * @param error reference for error-output
  * @param showHiddenValues true to also return as hidden marked values
  *
@@ -125,24 +146,47 @@ HanamiSqlTable::get(Json::JsonItem &result,
  */
 bool
 HanamiSqlTable::getAll(TableItem &result,
+                       const std::string &userUuid,
+                       const std::string &projectUuid,
+                       const bool isAdmin,
                        ErrorContainer &error,
                        const bool showHiddenValues)
 {
-    return getAllFromDb(result, error, showHiddenValues);
+    std::vector<RequestCondition> conditions;
+
+    if(isAdmin == false)
+    {
+        conditions.emplace_back("owner_uuid", userUuid);
+        conditions.emplace_back("project_uuid", projectUuid);
+    }
+
+    return getFromDb(result, conditions, error, showHiddenValues);
 }
 
 /**
  * @brief HanamiSqlTable::del
  *
- * @param conditions
+ * @param conditions list of conditions to filter result
+ * @param userUuid user-uuid to filter
+ * @param projectUuid project-uuid to filter
+ * @param isAdmin true, if use who makes request is admin
  * @param error reference for error-output
  *
  * @return true, if successful, else false
  */
 bool
-HanamiSqlTable::del(const std::vector<RequestCondition> &conditions,
+HanamiSqlTable::del(std::vector<RequestCondition> conditions,
+                    const std::string &userUuid,
+                    const std::string &projectUuid,
+                    const bool isAdmin,
                     ErrorContainer &error)
 {
+    if(isAdmin == false)
+    {
+        conditions.emplace_back("owner_uuid", userUuid);
+        conditions.emplace_back("project_uuid", projectUuid);
+    }
+
     return deleteFromDb(conditions, error);
 }
 
