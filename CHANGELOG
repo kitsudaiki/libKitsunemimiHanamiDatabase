@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.0] - 2022-01-16
+
+### Added/Changed
+- now filter all based on user- and project-uuid and allow only the admin to see all
+
+
 ## [0.1.0] - 2022-01-09
 
 ### Added
