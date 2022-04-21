@@ -87,7 +87,7 @@ get_required_private_repo_github "libKitsunemimiSqlite" "v0.3.0" 8
 echo ""
 echo "###########################################################################################################"
 echo ""
-get_required_private_repo_github "libKitsunemimiSakuraDatabase" "v0.4.1" 8
+get_required_private_repo_github "libKitsunemimiSakuraDatabase" "master" 8
 
 #-----------------------------------------------------------------------------------------------------------------
 
