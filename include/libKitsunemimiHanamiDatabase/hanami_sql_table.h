@@ -61,7 +61,7 @@ public:
              std::vector<RequestCondition> conditions,
              Kitsunemimi::ErrorContainer &error,
              const bool showHiddenValues = false);
-    bool update(Kitsunemimi::Json::JsonItem &result,
+    bool update(Kitsunemimi::Json::JsonItem &values,
                 const std::string &userUuid,
                 const std::string &projectUuid,
                 const bool isAdmin,
