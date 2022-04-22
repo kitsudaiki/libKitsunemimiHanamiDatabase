@@ -102,7 +102,7 @@ HanamiSqlTable::add(Json::JsonItem &values,
 }
 
 /**
- * @brief get specif values for the table
+ * @brief get specific values for the table
  *
  * @param result reference for result-output
  * @param userUuid user-uuid to filter
@@ -130,6 +130,35 @@ HanamiSqlTable::get(Json::JsonItem &result,
     }
 
     return getFromDb(result, conditions, error, showHiddenValues);
+}
+
+/**
+ * @brief update specific values for the table
+ *
+ * @param values key-values-pairs to update
+ * @param userUuid user-uuid to filter
+ * @param projectUuid project-uuid to filter
+ * @param isAdmin true, if use who makes request is admin
+ * @param conditions list of conditions to filter result
+ * @param error reference for error-output
+ *
+ * @return true, if successful, else false
+ */
+bool
+HanamiSqlTable::update(Json::JsonItem &values,
+                       const std::string &userUuid,
+                       const std::string &projectUuid,
+                       const bool isAdmin,
+                       std::vector<RequestCondition> conditions,
+                       ErrorContainer &error)
+{
+    if(isAdmin == false)
+    {
+        conditions.emplace_back("owner_uuid", userUuid);
+        conditions.emplace_back("project_uuid", projectUuid);
+    }
+
+    return updateInDb(conditions, values, error);
 }
 
 /**
