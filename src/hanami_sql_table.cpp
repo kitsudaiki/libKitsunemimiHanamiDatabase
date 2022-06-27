@@ -83,16 +83,20 @@ HanamiSqlTable::add(Json::JsonItem &values,
                     const std::string &projectUuid,
                     ErrorContainer &error)
 {
-    // create uuid
-    char uuid[UUID_STR_LEN];
-    uuid_t binaryUuid;
-    uuid_generate_random(binaryUuid);
-    uuid_unparse_lower(binaryUuid, uuid);
+    // generate new uuid if the is no predefined
+    if(values.contains("uuid") == false)
+    {
+        // create uuid
+        char uuid[UUID_STR_LEN];
+        uuid_t binaryUuid;
+        uuid_generate_random(binaryUuid);
+        uuid_unparse_lower(binaryUuid, uuid);
 
-    // fill into string, but must be reduced by 1 to remove the escate-character
-    std::string uuidString = std::string(uuid, UUID_STR_LEN - 1);
-    Kitsunemimi::toLowerCase(uuidString);
-    values.insert("uuid", uuidString);
+        // fill into string, but must be reduced by 1 to remove the escate-character
+        std::string uuidString = std::string(uuid, UUID_STR_LEN - 1);
+        Kitsunemimi::toLowerCase(uuidString);
+        values.insert("uuid", uuidString);
+    }
 
     // add user-ids
     values.insert("owner_uuid", userUuid, true);

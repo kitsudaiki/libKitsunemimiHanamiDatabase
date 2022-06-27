@@ -78,7 +78,7 @@ function get_required_private_repo_github () {
 
 #-----------------------------------------------------------------------------------------------------------------
 
-get_required_kitsune_lib_repo "libKitsunemimiCommon" "v0.25.1" 8
+get_required_kitsune_lib_repo "libKitsunemimiCommon" "v0.26.0" 8
 get_required_kitsune_lib_repo "libKitsunemimiJson" "v0.11.3" 1
 echo ""
 echo "###########################################################################################################"
@@ -87,7 +87,7 @@ get_required_private_repo_github "libKitsunemimiSqlite" "v0.3.0" 8
 echo ""
 echo "###########################################################################################################"
 echo ""
-get_required_private_repo_github "libKitsunemimiSakuraDatabase" "master" 8
+get_required_private_repo_github "libKitsunemimiSakuraDatabase" "v0.5.0" 8
 
 #-----------------------------------------------------------------------------------------------------------------
 
