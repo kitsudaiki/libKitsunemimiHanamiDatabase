@@ -60,7 +60,7 @@ HanamiSqlTable::HanamiSqlTable(Kitsunemimi::Sakura::SqlDatabase* db)
 
     DbHeaderEntry visibility;
     visibility.name = "visibility";
-    visibility.type = INT_TYPE;
+    projectUuid.maxLength = 10;
     m_tableHeader.push_back(visibility);
 }
 
@@ -172,6 +172,7 @@ HanamiSqlTable::update(Json::JsonItem &values,
  * @param userUuid user-uuid to filter
  * @param projectUuid project-uuid to filter
  * @param isAdmin true, if use who makes request is admin
+ * @param conditions predefined list of conditions for filtering
  * @param error reference for error-output
  * @param showHiddenValues true to also return as hidden marked values
  *
@@ -182,11 +183,10 @@ HanamiSqlTable::getAll(TableItem &result,
                        const std::string &userUuid,
                        const std::string &projectUuid,
                        const bool isAdmin,
+                       std::vector<RequestCondition> &conditions,
                        ErrorContainer &error,
                        const bool showHiddenValues)
 {
-    std::vector<RequestCondition> conditions;
-
     if(isAdmin == false)
     {
         conditions.emplace_back("owner_uuid", userUuid);

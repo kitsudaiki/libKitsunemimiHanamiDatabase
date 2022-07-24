@@ -71,6 +71,7 @@ public:
                 const std::string &userUuid,
                 const std::string &projectUuid,
                 const bool isAdmin,
+                std::vector<RequestCondition> &conditions,
                 Kitsunemimi::ErrorContainer &error,
                 const bool showHiddenValues = false);
     bool del(std::vector<RequestCondition> conditions,
