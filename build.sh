@@ -69,7 +69,7 @@ function get_required_private_repo_github () {
     NUMBER_OF_THREADS=$3
 
     # clone repo
-    git clone https://kitsudaiki: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@github.com/kitsudaiki/$REPO_NAME.git "$PARENT_DIR/$REPO_NAME"
+    git clone https://kitsudaiki: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@github.com/kitsudaiki/$REPO_NAME.git "$PARENT_DIR/$REPO_NAME"
     cd "$PARENT_DIR/$REPO_NAME"
     git checkout $TAG_OR_BRANCH
 
@@ -78,16 +78,16 @@ function get_required_private_repo_github () {
 
 #-----------------------------------------------------------------------------------------------------------------
 
-get_required_kitsune_lib_repo "libKitsunemimiCommon" "v0.26.0" 8
-get_required_kitsune_lib_repo "libKitsunemimiJson" "v0.11.3" 1
+get_required_kitsune_lib_repo "libKitsunemimiCommon" "v0.27.0" 8
+get_required_kitsune_lib_repo "libKitsunemimiJson" "develop" 1
 echo ""
 echo "###########################################################################################################"
 echo ""
-get_required_private_repo_github "libKitsunemimiSqlite" "v0.3.0" 8
+get_required_private_repo_github "libKitsunemimiSqlite" "develop" 8
 echo ""
 echo "###########################################################################################################"
 echo ""
-get_required_private_repo_github "libKitsunemimiSakuraDatabase" "v0.5.0" 8
+get_required_private_repo_github "libKitsunemimiSakuraDatabase" "develop" 8
 
 #-----------------------------------------------------------------------------------------------------------------
 
