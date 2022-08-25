@@ -51,32 +51,32 @@ public:
     virtual ~HanamiSqlTable();
 
     bool add(Json::JsonItem &values,
-             const std::string &userUuid,
-             const std::string &projectUuid,
+             const std::string &userId,
+             const std::string &projectId,
              Kitsunemimi::ErrorContainer &error);
     bool get(Kitsunemimi::Json::JsonItem &result,
-             const std::string &userUuid,
-             const std::string &projectUuid,
+             const std::string &userId,
+             const std::string &projectId,
              const bool isAdmin,
              std::vector<RequestCondition> conditions,
              Kitsunemimi::ErrorContainer &error,
              const bool showHiddenValues = false);
     bool update(Kitsunemimi::Json::JsonItem &values,
-                const std::string &userUuid,
-                const std::string &projectUuid,
+                const std::string &userId,
+                const std::string &projectId,
                 const bool isAdmin,
                 std::vector<RequestCondition> conditions,
                 Kitsunemimi::ErrorContainer &error);
     bool getAll(Kitsunemimi::TableItem &result,
-                const std::string &userUuid,
-                const std::string &projectUuid,
+                const std::string &userId,
+                const std::string &projectId,
                 const bool isAdmin,
                 std::vector<RequestCondition> &conditions,
                 Kitsunemimi::ErrorContainer &error,
                 const bool showHiddenValues = false);
     bool del(std::vector<RequestCondition> conditions,
-             const std::string &userUuid,
-             const std::string &projectUuid,
+             const std::string &userId,
+             const std::string &projectId,
              const bool isAdmin,
              Kitsunemimi::ErrorContainer &error);
 };
