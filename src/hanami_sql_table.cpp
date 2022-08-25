@@ -48,19 +48,19 @@ HanamiSqlTable::HanamiSqlTable(Kitsunemimi::Sakura::SqlDatabase* db)
     uuid.isPrimary = true;
     m_tableHeader.push_back(uuid);
 
-    DbHeaderEntry projectUuid;
-    projectUuid.name = "project_uuid";
-    projectUuid.maxLength = 36;
-    m_tableHeader.push_back(projectUuid);
+    DbHeaderEntry projectId;
+    projectId.name = "project_id";
+    projectId.maxLength = 128;
+    m_tableHeader.push_back(projectId);
 
-    DbHeaderEntry owner;
-    owner.name = "owner_uuid";
-    owner.maxLength = 36;
-    m_tableHeader.push_back(owner);
+    DbHeaderEntry ownerId;
+    ownerId.name = "owner_id";
+    ownerId.maxLength = 128;
+    m_tableHeader.push_back(ownerId);
 
     DbHeaderEntry visibility;
     visibility.name = "visibility";
-    projectUuid.maxLength = 10;
+    visibility.maxLength = 10;
     m_tableHeader.push_back(visibility);
 }
 
@@ -99,8 +99,8 @@ HanamiSqlTable::add(Json::JsonItem &values,
     }
 
     // add user-ids
-    values.insert("owner_uuid", userUuid, true);
-    values.insert("project_uuid", projectUuid, true);
+    values.insert("owner_id", userUuid, true);
+    values.insert("project_id", projectUuid, true);
 
     return insertToDb(values, error);
 }
@@ -129,8 +129,8 @@ HanamiSqlTable::get(Json::JsonItem &result,
 {
     if(isAdmin == false)
     {
-        conditions.emplace_back("owner_uuid", userUuid);
-        conditions.emplace_back("project_uuid", projectUuid);
+        conditions.emplace_back("owner_id", userUuid);
+        conditions.emplace_back("project_id", projectUuid);
     }
 
     return getFromDb(result, conditions, error, showHiddenValues);
@@ -158,8 +158,8 @@ HanamiSqlTable::update(Json::JsonItem &values,
 {
     if(isAdmin == false)
     {
-        conditions.emplace_back("owner_uuid", userUuid);
-        conditions.emplace_back("project_uuid", projectUuid);
+        conditions.emplace_back("owner_id", userUuid);
+        conditions.emplace_back("project_id", projectUuid);
     }
 
     return updateInDb(conditions, values, error);
@@ -189,8 +189,8 @@ HanamiSqlTable::getAll(TableItem &result,
 {
     if(isAdmin == false)
     {
-        conditions.emplace_back("owner_uuid", userUuid);
-        conditions.emplace_back("project_uuid", projectUuid);
+        conditions.emplace_back("owner_id", userUuid);
+        conditions.emplace_back("project_id", projectUuid);
     }
 
     return getFromDb(result, conditions, error, showHiddenValues);
@@ -216,8 +216,8 @@ HanamiSqlTable::del(std::vector<RequestCondition> conditions,
 {
     if(isAdmin == false)
     {
-        conditions.emplace_back("owner_uuid", userUuid);
-        conditions.emplace_back("project_uuid", projectUuid);
+        conditions.emplace_back("owner_id", userUuid);
+        conditions.emplace_back("project_id", projectUuid);
     }
 
     return deleteFromDb(conditions, error);
