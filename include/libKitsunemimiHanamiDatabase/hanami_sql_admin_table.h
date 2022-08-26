@@ -1,5 +1,5 @@
 /**
- * @file       hanami_sql_table.h
+ * @file       hanami_sql_admin_table.h
  *
  * @author     Tobias Anker <tobias.anker@kitsunemimi.moe>
  *
@@ -20,8 +20,8 @@
  *      limitations under the License.
  */
 
-#ifndef KITSUNEMIMI_HANAMI_DATABASE_SQL_TABLE_H
-#define KITSUNEMIMI_HANAMI_DATABASE_SQL_TABLE_H
+#ifndef KITSUNEMIMI_HANAMI_DATABASE_SQL_ADMIN_TABLE_H
+#define KITSUNEMIMI_HANAMI_DATABASE_SQL_ADMIN_TABLE_H
 
 #include <vector>
 #include <string>
@@ -43,45 +43,31 @@ namespace Hanami
 {
 class SqlDatabase;
 
-class HanamiSqlTable
+class HanamiSqlAdminTable
         : public Kitsunemimi::Sakura::SqlTable
 {
 public:
-    HanamiSqlTable(Kitsunemimi::Sakura::SqlDatabase* db);
-    virtual ~HanamiSqlTable();
+    HanamiSqlAdminTable(Kitsunemimi::Sakura::SqlDatabase* db);
+    virtual ~HanamiSqlAdminTable();
 
     bool add(Json::JsonItem &values,
-             const std::string &userId,
-             const std::string &projectId,
              Kitsunemimi::ErrorContainer &error);
     bool get(Kitsunemimi::Json::JsonItem &result,
-             const std::string &userId,
-             const std::string &projectId,
-             const bool isAdmin,
              std::vector<RequestCondition> conditions,
              Kitsunemimi::ErrorContainer &error,
-             const bool showHiddenValues = false);
+             const bool showHiddenValues);
     bool update(Kitsunemimi::Json::JsonItem &values,
-                const std::string &userId,
-                const std::string &projectId,
-                const bool isAdmin,
                 std::vector<RequestCondition> conditions,
                 Kitsunemimi::ErrorContainer &error);
     bool getAll(Kitsunemimi::TableItem &result,
-                const std::string &userId,
-                const std::string &projectId,
-                const bool isAdmin,
                 std::vector<RequestCondition> &conditions,
                 Kitsunemimi::ErrorContainer &error,
-                const bool showHiddenValues = false);
+                const bool showHiddenValues);
     bool del(std::vector<RequestCondition> conditions,
-             const std::string &userId,
-             const std::string &projectId,
-             const bool isAdmin,
              Kitsunemimi::ErrorContainer &error);
 };
 
 } // namespace Hanami
 } // namespace Kitsunemimi
 
-#endif // KITSUNEMIMI_HANAMI_DATABASE_SQL_TABLE_H
+#endif // KITSUNEMIMI_HANAMI_DATABASE_SQL_ADMIN_TABLE_H
