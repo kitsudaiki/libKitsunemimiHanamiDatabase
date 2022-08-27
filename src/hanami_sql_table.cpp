@@ -112,8 +112,9 @@ HanamiSqlTable::add(Json::JsonItem &values,
  *
  * @param result reference for result-output
  * @param userId user-id to filter
+ * @param isAdmin true, if user who makes request is admin
  * @param projectId project-id to filter
- * @param isAdmin true, if use who makes request is admin
+ * @param isProjectAdmin true, if user who makes request is admin within the project
  * @param conditions list of conditions to filter result
  * @param error reference for error-output
  * @param showHiddenValues true to also return as hidden marked values
@@ -123,18 +124,14 @@ HanamiSqlTable::add(Json::JsonItem &values,
 bool
 HanamiSqlTable::get(Json::JsonItem &result,
                     const std::string &userId,
-                    const std::string &projectId,
                     const bool isAdmin,
-                    std::vector<RequestCondition> conditions,
+                    const std::string &projectId,
+                    const bool isProjectAdmin,
+                    std::vector<RequestCondition> &conditions,
                     ErrorContainer &error,
                     const bool showHiddenValues)
 {
-    if(isAdmin == false)
-    {
-        conditions.emplace_back("owner_id", userId);
-        conditions.emplace_back("project_id", projectId);
-    }
-
+    fillCondition(conditions, userId, projectId, isProjectAdmin, isAdmin);
     return getFromDb(result, conditions, error, showHiddenValues);
 }
 
@@ -143,8 +140,9 @@ HanamiSqlTable::get(Json::JsonItem &result,
  *
  * @param values key-values-pairs to update
  * @param userId user-id to filter
+ * @param isAdmin true, if user who makes request is admin
  * @param projectId project-id to filter
- * @param isAdmin true, if use who makes request is admin
+ * @param isProjectAdmin true, if user who makes request is admin within the project
  * @param conditions list of conditions to filter result
  * @param error reference for error-output
  *
@@ -153,17 +151,13 @@ HanamiSqlTable::get(Json::JsonItem &result,
 bool
 HanamiSqlTable::update(Json::JsonItem &values,
                        const std::string &userId,
-                       const std::string &projectId,
                        const bool isAdmin,
-                       std::vector<RequestCondition> conditions,
+                       const std::string &projectId,
+                       const bool isProjectAdmin,
+                       std::vector<RequestCondition> &conditions,
                        ErrorContainer &error)
 {
-    if(isAdmin == false)
-    {
-        conditions.emplace_back("owner_id", userId);
-        conditions.emplace_back("project_id", projectId);
-    }
-
+    fillCondition(conditions, userId, projectId, isProjectAdmin, isAdmin);
     return updateInDb(conditions, values, error);
 }
 
@@ -172,8 +166,9 @@ HanamiSqlTable::update(Json::JsonItem &values,
  *
  * @param result reference for result-output
  * @param userId user-id to filter
+ * @param isAdmin true, if user who makes request is admin
  * @param projectId project-id to filter
- * @param isAdmin true, if use who makes request is admin
+ * @param isProjectAdmin true, if user who makes request is admin within the project
  * @param conditions predefined list of conditions for filtering
  * @param error reference for error-output
  * @param showHiddenValues true to also return as hidden marked values
@@ -183,18 +178,14 @@ HanamiSqlTable::update(Json::JsonItem &values,
 bool
 HanamiSqlTable::getAll(TableItem &result,
                        const std::string &userId,
-                       const std::string &projectId,
                        const bool isAdmin,
+                       const std::string &projectId,
+                       const bool isProjectAdmin,
                        std::vector<RequestCondition> &conditions,
                        ErrorContainer &error,
                        const bool showHiddenValues)
 {
-    if(isAdmin == false)
-    {
-        conditions.emplace_back("owner_id", userId);
-        conditions.emplace_back("project_id", projectId);
-    }
-
+    fillCondition(conditions, userId, projectId, isProjectAdmin, isAdmin);
     return getFromDb(result, conditions, error, showHiddenValues);
 }
 
@@ -203,26 +194,55 @@ HanamiSqlTable::getAll(TableItem &result,
  *
  * @param conditions list of conditions to filter result
  * @param userId user-id to filter
+ * @param isAdmin true, if user who makes request is admin
  * @param projectId project-id to filter
- * @param isAdmin true, if use who makes request is admin
+ * @param isProjectAdmin true, if user who makes request is admin within the project
  * @param error reference for error-output
  *
  * @return true, if successful, else false
  */
 bool
-HanamiSqlTable::del(std::vector<RequestCondition> conditions,
+HanamiSqlTable::del(std::vector<RequestCondition> &conditions,
                     const std::string &userId,
-                    const std::string &projectId,
                     const bool isAdmin,
+                    const std::string &projectId,
+                    const bool isProjectAdmin,
                     ErrorContainer &error)
 {
-    if(isAdmin == false)
-    {
-        conditions.emplace_back("owner_id", userId);
-        conditions.emplace_back("project_id", projectId);
+    fillCondition(conditions, userId, projectId, isProjectAdmin, isAdmin);
+    return deleteFromDb(conditions, error);
+}
+
+/**
+ * @brief update list of conditions based on admin-status
+ *
+ * @param conditions list of conditions to filter result
+ * @param userId user-id to filter
+ * @param projectId project-id to filter
+ * @param isProjectAdmin true, if user who makes request is admin within the project
+ * @param isAdmin true, if user who makes request is admin
+ */
+void
+HanamiSqlTable::fillCondition(std::vector<RequestCondition> &conditions,
+                              const std::string &userId,
+                              const std::string &projectId,
+                              const bool isProjectAdmin,
+                              const bool isAdmin)
+{
+    if(isAdmin) {
+        return;
     }
 
-    return deleteFromDb(conditions, error);
+    if(isProjectAdmin)
+    {
+        conditions.emplace_back("project_id", projectId);
+        return;
+    }
+
+    conditions.emplace_back("owner_id", userId);
+    conditions.emplace_back("project_id", projectId);
+
+    return;
 }
 
 } // namespace Hanami
