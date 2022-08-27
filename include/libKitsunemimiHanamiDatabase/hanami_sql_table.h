@@ -56,29 +56,40 @@ public:
              Kitsunemimi::ErrorContainer &error);
     bool get(Kitsunemimi::Json::JsonItem &result,
              const std::string &userId,
-             const std::string &projectId,
              const bool isAdmin,
-             std::vector<RequestCondition> conditions,
+             const std::string &projectId,
+             const bool isProjectAdmin,
+             std::vector<RequestCondition> &conditions,
              Kitsunemimi::ErrorContainer &error,
              const bool showHiddenValues = false);
     bool update(Kitsunemimi::Json::JsonItem &values,
                 const std::string &userId,
-                const std::string &projectId,
                 const bool isAdmin,
-                std::vector<RequestCondition> conditions,
+                const std::string &projectId,
+                const bool isProjectAdmin,
+                std::vector<RequestCondition> &conditions,
                 Kitsunemimi::ErrorContainer &error);
     bool getAll(Kitsunemimi::TableItem &result,
                 const std::string &userId,
-                const std::string &projectId,
                 const bool isAdmin,
+                const std::string &projectId,
+                const bool isProjectAdmin,
                 std::vector<RequestCondition> &conditions,
                 Kitsunemimi::ErrorContainer &error,
                 const bool showHiddenValues = false);
-    bool del(std::vector<RequestCondition> conditions,
+    bool del(std::vector<RequestCondition> &conditions,
              const std::string &userId,
-             const std::string &projectId,
              const bool isAdmin,
+             const std::string &projectId,
+             const bool isProjectAdmin,
              Kitsunemimi::ErrorContainer &error);
+
+private:
+    void fillCondition(std::vector<RequestCondition> &conditions,
+                       const std::string &userId,
+                       const std::string &projectId,
+                       const bool isProjectAdmin,
+                       const bool isAdmin);
 };
 
 } // namespace Hanami
