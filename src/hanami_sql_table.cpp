@@ -73,16 +73,14 @@ HanamiSqlTable::~HanamiSqlTable() {}
  * @brief add a new row to the table
  *
  * @param values json-item with key-value-pairs, which should be added as new row to the table
- * @param userId user-id to filter
- * @param projectId project-id to filter
+ * @param userContext context-object with all user specific information
  * @param error reference for error-output
  *
  * @return true, if successful, else false
  */
 bool
 HanamiSqlTable::add(Json::JsonItem &values,
-                    const std::string &userId,
-                    const std::string &projectId,
+                    const Kitsunemimi::Hanami::UserContext &userContext,
                     ErrorContainer &error)
 {
     // generate new uuid if the is no predefined
@@ -101,8 +99,8 @@ HanamiSqlTable::add(Json::JsonItem &values,
     }
 
     // add user-ids
-    values.insert("owner_id", userId, true);
-    values.insert("project_id", projectId, true);
+    values.insert("owner_id", userContext.userId, true);
+    values.insert("project_id", userContext.projectId, true);
 
     return insertToDb(values, error);
 }
@@ -111,10 +109,7 @@ HanamiSqlTable::add(Json::JsonItem &values,
  * @brief get specific values for the table
  *
  * @param result reference for result-output
- * @param userId user-id to filter
- * @param isAdmin true, if user who makes request is admin
- * @param projectId project-id to filter
- * @param isProjectAdmin true, if user who makes request is admin within the project
+ * @param userContext context-object with all user specific information
  * @param conditions list of conditions to filter result
  * @param error reference for error-output
  * @param showHiddenValues true to also return as hidden marked values
@@ -123,15 +118,12 @@ HanamiSqlTable::add(Json::JsonItem &values,
  */
 bool
 HanamiSqlTable::get(Json::JsonItem &result,
-                    const std::string &userId,
-                    const bool isAdmin,
-                    const std::string &projectId,
-                    const bool isProjectAdmin,
+                    const Kitsunemimi::Hanami::UserContext &userContext,
                     std::vector<RequestCondition> &conditions,
                     ErrorContainer &error,
                     const bool showHiddenValues)
 {
-    fillCondition(conditions, userId, projectId, isProjectAdmin, isAdmin);
+    fillCondition(conditions, userContext);
     return getFromDb(result, conditions, error, showHiddenValues);
 }
 
@@ -139,10 +131,7 @@ HanamiSqlTable::get(Json::JsonItem &result,
  * @brief update specific values for the table
  *
  * @param values key-values-pairs to update
- * @param userId user-id to filter
- * @param isAdmin true, if user who makes request is admin
- * @param projectId project-id to filter
- * @param isProjectAdmin true, if user who makes request is admin within the project
+ * @param userContext context-object with all user specific information
  * @param conditions list of conditions to filter result
  * @param error reference for error-output
  *
@@ -150,14 +139,11 @@ HanamiSqlTable::get(Json::JsonItem &result,
  */
 bool
 HanamiSqlTable::update(Json::JsonItem &values,
-                       const std::string &userId,
-                       const bool isAdmin,
-                       const std::string &projectId,
-                       const bool isProjectAdmin,
+                       const Kitsunemimi::Hanami::UserContext &userContext,
                        std::vector<RequestCondition> &conditions,
                        ErrorContainer &error)
 {
-    fillCondition(conditions, userId, projectId, isProjectAdmin, isAdmin);
+    fillCondition(conditions, userContext);
     return updateInDb(conditions, values, error);
 }
 
@@ -165,10 +151,7 @@ HanamiSqlTable::update(Json::JsonItem &values,
  * @brief get all entries of the table
  *
  * @param result reference for result-output
- * @param userId user-id to filter
- * @param isAdmin true, if user who makes request is admin
- * @param projectId project-id to filter
- * @param isProjectAdmin true, if user who makes request is admin within the project
+ * @param userContext context-object with all user specific information
  * @param conditions predefined list of conditions for filtering
  * @param error reference for error-output
  * @param showHiddenValues true to also return as hidden marked values
@@ -177,15 +160,12 @@ HanamiSqlTable::update(Json::JsonItem &values,
  */
 bool
 HanamiSqlTable::getAll(TableItem &result,
-                       const std::string &userId,
-                       const bool isAdmin,
-                       const std::string &projectId,
-                       const bool isProjectAdmin,
+                       const Kitsunemimi::Hanami::UserContext &userContext,
                        std::vector<RequestCondition> &conditions,
                        ErrorContainer &error,
                        const bool showHiddenValues)
 {
-    fillCondition(conditions, userId, projectId, isProjectAdmin, isAdmin);
+    fillCondition(conditions, userContext);
     return getFromDb(result, conditions, error, showHiddenValues);
 }
 
@@ -193,23 +173,17 @@ HanamiSqlTable::getAll(TableItem &result,
  * @brief HanamiSqlTable::del
  *
  * @param conditions list of conditions to filter result
- * @param userId user-id to filter
- * @param isAdmin true, if user who makes request is admin
- * @param projectId project-id to filter
- * @param isProjectAdmin true, if user who makes request is admin within the project
+ * @param userContext context-object with all user specific information
  * @param error reference for error-output
  *
  * @return true, if successful, else false
  */
 bool
 HanamiSqlTable::del(std::vector<RequestCondition> &conditions,
-                    const std::string &userId,
-                    const bool isAdmin,
-                    const std::string &projectId,
-                    const bool isProjectAdmin,
+                    const Kitsunemimi::Hanami::UserContext &userContext,
                     ErrorContainer &error)
 {
-    fillCondition(conditions, userId, projectId, isProjectAdmin, isAdmin);
+    fillCondition(conditions, userContext);
     return deleteFromDb(conditions, error);
 }
 
@@ -217,30 +191,24 @@ HanamiSqlTable::del(std::vector<RequestCondition> &conditions,
  * @brief update list of conditions based on admin-status
  *
  * @param conditions list of conditions to filter result
- * @param userId user-id to filter
- * @param projectId project-id to filter
- * @param isProjectAdmin true, if user who makes request is admin within the project
- * @param isAdmin true, if user who makes request is admin
+ * @param userContext context-object with all user specific information
  */
 void
 HanamiSqlTable::fillCondition(std::vector<RequestCondition> &conditions,
-                              const std::string &userId,
-                              const std::string &projectId,
-                              const bool isProjectAdmin,
-                              const bool isAdmin)
+                              const Kitsunemimi::Hanami::UserContext &userContext)
 {
-    if(isAdmin) {
+    if(userContext.isAdmin) {
         return;
     }
 
-    if(isProjectAdmin)
+    if(userContext.isProjectAdmin)
     {
-        conditions.emplace_back("project_id", projectId);
+        conditions.emplace_back("project_id", userContext.projectId);
         return;
     }
 
-    conditions.emplace_back("owner_id", userId);
-    conditions.emplace_back("project_id", projectId);
+    conditions.emplace_back("owner_id", userContext.userId);
+    conditions.emplace_back("project_id", userContext.projectId);
 
     return;
 }

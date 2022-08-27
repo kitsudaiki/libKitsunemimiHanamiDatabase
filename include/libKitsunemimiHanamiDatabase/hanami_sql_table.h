@@ -31,6 +31,8 @@
 
 #include <libKitsunemimiSakuraDatabase/sql_table.h>
 
+#include <libKitsunemimiHanamiCommon/structs.h>
+
 namespace Kitsunemimi {
 namespace Json {
 class JsonItem;
@@ -51,45 +53,29 @@ public:
     virtual ~HanamiSqlTable();
 
     bool add(Json::JsonItem &values,
-             const std::string &userId,
-             const std::string &projectId,
+             const Kitsunemimi::Hanami::UserContext &userContext,
              Kitsunemimi::ErrorContainer &error);
     bool get(Kitsunemimi::Json::JsonItem &result,
-             const std::string &userId,
-             const bool isAdmin,
-             const std::string &projectId,
-             const bool isProjectAdmin,
+             const Kitsunemimi::Hanami::UserContext &userContext,
              std::vector<RequestCondition> &conditions,
              Kitsunemimi::ErrorContainer &error,
              const bool showHiddenValues = false);
     bool update(Kitsunemimi::Json::JsonItem &values,
-                const std::string &userId,
-                const bool isAdmin,
-                const std::string &projectId,
-                const bool isProjectAdmin,
+                const Kitsunemimi::Hanami::UserContext &userContext,
                 std::vector<RequestCondition> &conditions,
                 Kitsunemimi::ErrorContainer &error);
     bool getAll(Kitsunemimi::TableItem &result,
-                const std::string &userId,
-                const bool isAdmin,
-                const std::string &projectId,
-                const bool isProjectAdmin,
+                const Kitsunemimi::Hanami::UserContext &userContext,
                 std::vector<RequestCondition> &conditions,
                 Kitsunemimi::ErrorContainer &error,
                 const bool showHiddenValues = false);
     bool del(std::vector<RequestCondition> &conditions,
-             const std::string &userId,
-             const bool isAdmin,
-             const std::string &projectId,
-             const bool isProjectAdmin,
+             const Kitsunemimi::Hanami::UserContext &userContext,
              Kitsunemimi::ErrorContainer &error);
 
 private:
     void fillCondition(std::vector<RequestCondition> &conditions,
-                       const std::string &userId,
-                       const std::string &projectId,
-                       const bool isProjectAdmin,
-                       const bool isAdmin);
+                       const Kitsunemimi::Hanami::UserContext &userContext);
 };
 
 } // namespace Hanami

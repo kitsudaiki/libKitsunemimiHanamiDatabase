@@ -5,6 +5,11 @@ TEMPLATE = lib
 CONFIG += c++17
 VERSION = 0.3.0
 
+LIBS += -L../../libKitsunemimiHanamiCommon/src -lKitsunemimiHanamiCommon
+LIBS += -L../../libKitsunemimiHanamiCommon/src/debug -lKitsunemimiHanamiCommon
+LIBS += -L../../libKitsunemimiHanamiCommon/src/release -lKitsunemimiHanamiCommon
+INCLUDEPATH += ../../libKitsunemimiHanamiCommon/include
+
 LIBS += -L../../libKitsunemimiSakuraDatabase/src -lKitsunemimiSakuraDatabase
 LIBS += -L../../libKitsunemimiSakuraDatabase/src/debug -lKitsunemimiSakuraDatabase
 LIBS += -L../../libKitsunemimiSakuraDatabase/src/release -lKitsunemimiSakuraDatabase
