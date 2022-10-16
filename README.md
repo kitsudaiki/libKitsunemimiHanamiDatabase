@@ -34,10 +34,11 @@ IMPORTANT: All my projects are only tested on Linux.
 
 Repository-Name | Version-Tag | Download-Path
 --- | --- | ---
-libKitsunemimiCommon | develop | https://github.com/kitsudaiki/libKitsunemimiCommon.git
-libKitsunemimiJson | develop | https://github.com/kitsudaiki/libKitsunemimiJson.git
-libKitsunemimiSqlite | develop | https://github.com/kitsudaiki/libKitsunemimiSqlite.git
-libKitsunemimiSakuraDatabase | develop | https://github.com/kitsudaiki/libKitsunemimiSakuraDatabase.git
+libKitsunemimiCommon | v0.27.1 | https://github.com/kitsudaiki/libKitsunemimiCommon.git
+libKitsunemimiJson | v0.12.0 | https://github.com/kitsudaiki/libKitsunemimiJson.git
+libKitsunemimiSqlite | v0.4.0 | https://github.com/kitsudaiki/libKitsunemimiSqlite.git
+libKitsunemimiSakuraDatabase | v0.6.1 | https://github.com/kitsudaiki/libKitsunemimiSakuraDatabase.git
+libKitsunemimiHanamiCommon | v0.3.0 | https://github.com/kitsudaiki/libKitsunemimiHanamiCommon.git
 
 HINT: These Kitsunemimi-Libraries will be downloaded and build automatically with the build-script below.
 

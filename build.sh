@@ -54,17 +54,17 @@ function get_required_kitsune_lib_repo () {
 echo ""
 echo "###########################################################################################################"
 echo ""
-get_required_kitsune_lib_repo "libKitsunemimiCommon" "develop" 8 "staticlib"
-get_required_kitsune_lib_repo "libKitsunemimiJson" "develop" 1 "staticlib"
-get_required_kitsune_lib_repo "libKitsunemimiSqlite" "develop" 8 "staticlib"
+get_required_kitsune_lib_repo "libKitsunemimiCommon" "v0.27.1" 8 "staticlib"
+get_required_kitsune_lib_repo "libKitsunemimiJson" "v0.12.0" 1 "staticlib"
+get_required_kitsune_lib_repo "libKitsunemimiSqlite" "v0.4.0" 8 "staticlib"
 echo ""
 echo "###########################################################################################################"
 echo ""
-get_required_kitsune_lib_repo "libKitsunemimiSakuraDatabase" "develop" 8 "staticlib"
+get_required_kitsune_lib_repo "libKitsunemimiSakuraDatabase" "v0.6.1" 8 "staticlib"
 echo ""
 echo "###########################################################################################################"
 echo ""
-get_required_kitsune_lib_repo "libKitsunemimiHanamiCommon" "develop" 8 "staticlib"
+get_required_kitsune_lib_repo "libKitsunemimiHanamiCommon" "v0.3.0" 8 "staticlib"
 
 #-----------------------------------------------------------------------------------------------------------------
 
