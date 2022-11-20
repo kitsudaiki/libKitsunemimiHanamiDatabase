@@ -37,9 +37,11 @@ INCLUDEPATH += $$PWD \
 
 HEADERS += \
     ../include/libKitsunemimiHanamiDatabase/hanami_sql_admin_table.h \
+    ../include/libKitsunemimiHanamiDatabase/hanami_sql_log_table.h \
     ../include/libKitsunemimiHanamiDatabase/hanami_sql_table.h
 
 SOURCES += \
     hanami_sql_admin_table.cpp \
+    hanami_sql_log_table.cpp \
     hanami_sql_table.cpp
 
