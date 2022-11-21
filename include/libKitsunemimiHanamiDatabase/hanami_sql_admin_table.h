@@ -49,22 +49,6 @@ class HanamiSqlAdminTable
 public:
     HanamiSqlAdminTable(Kitsunemimi::Sakura::SqlDatabase* db);
     virtual ~HanamiSqlAdminTable();
-
-    bool add(Json::JsonItem &values,
-             Kitsunemimi::ErrorContainer &error);
-    bool get(Kitsunemimi::Json::JsonItem &result,
-             std::vector<RequestCondition> conditions,
-             Kitsunemimi::ErrorContainer &error,
-             const bool showHiddenValues);
-    bool update(Kitsunemimi::Json::JsonItem &values,
-                std::vector<RequestCondition> conditions,
-                Kitsunemimi::ErrorContainer &error);
-    bool getAll(Kitsunemimi::TableItem &result,
-                std::vector<RequestCondition> &conditions,
-                Kitsunemimi::ErrorContainer &error,
-                const bool showHiddenValues);
-    bool del(std::vector<RequestCondition> conditions,
-             Kitsunemimi::ErrorContainer &error);
 };
 
 } // namespace Hanami
