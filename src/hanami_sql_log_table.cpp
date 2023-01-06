@@ -53,5 +53,58 @@ HanamiSqlLogTable::HanamiSqlLogTable(Kitsunemimi::Sakura::SqlDatabase* db)
  */
 HanamiSqlLogTable::~HanamiSqlLogTable() {}
 
+/**
+ * @brief get number of pages, where each contains 100 entries
+ *
+ * @param error reference for error-output
+ *
+ * @return -1 if request against database failed, else number of rows
+ */
+long
+HanamiSqlLogTable::getNumberOfPages(ErrorContainer &error)
+{
+    const long numberOfRows = getNumberOfRows(error);
+    if(numberOfRows == -1) {
+        return -1;
+    }
+
+    return (numberOfRows / 100) + 1;
+}
+
+/**
+ * @brief get a page with up to 100 log-entries from the database
+ *
+ * @param result reference for the result-output
+ * @param userId id of the user, whos logs are requested
+ * @param page a page has 100 entries so (page * 100)
+ * @param error reference for error-output
+ *
+ * @return true, if successful, else false
+ */
+bool
+HanamiSqlLogTable::getPageFromDb(TableItem &resultTable,
+                                 const std::string &userId,
+                                 const uint64_t page,
+                                 ErrorContainer &error)
+{
+    // get number of pages of the log-table
+    const long numberOfPages = getNumberOfPages(error);
+    if(numberOfPages == -1) {
+        return false;
+    }
+
+    // check if requested page-number is in range
+    if(page > static_cast<uint64_t>(numberOfPages))
+    {
+        error.addMeesage("Give page '" + std::to_string(page) + "' is too big");
+        return false;
+    }
+
+    // get requested page of log-entries from database-table
+    std::vector<RequestCondition> conditions;
+    conditions.push_back(RequestCondition("user_id", userId));
+    return getFromDb(resultTable, conditions, error, true, page*100, 100);
+}
+
 } // namespace Hanami
 } // namespace Kitsunemimi

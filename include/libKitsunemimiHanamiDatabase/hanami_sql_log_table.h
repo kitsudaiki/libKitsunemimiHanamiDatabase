@@ -49,6 +49,12 @@ class HanamiSqlLogTable
 public:
     HanamiSqlLogTable(Kitsunemimi::Sakura::SqlDatabase* db);
     virtual ~HanamiSqlLogTable();
+
+    long getNumberOfPages(ErrorContainer &error);
+    bool getPageFromDb(TableItem &resultTable,
+                       const std::string &userId,
+                       const uint64_t page,
+                       ErrorContainer &error);
 };
 
 } // namespace Hanami
