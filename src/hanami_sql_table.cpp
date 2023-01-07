@@ -79,7 +79,7 @@ HanamiSqlTable::~HanamiSqlTable() {}
  * @return true, if successful, else false
  */
 bool
-HanamiSqlTable::add(Json::JsonItem &values,
+HanamiSqlTable::add(JsonItem &values,
                     const Kitsunemimi::Hanami::UserContext &userContext,
                     ErrorContainer &error)
 {
@@ -117,7 +117,7 @@ HanamiSqlTable::add(Json::JsonItem &values,
  * @return true, if successful, else false
  */
 bool
-HanamiSqlTable::get(Json::JsonItem &result,
+HanamiSqlTable::get(JsonItem &result,
                     const Kitsunemimi::Hanami::UserContext &userContext,
                     std::vector<RequestCondition> &conditions,
                     ErrorContainer &error,
@@ -138,7 +138,7 @@ HanamiSqlTable::get(Json::JsonItem &result,
  * @return true, if successful, else false
  */
 bool
-HanamiSqlTable::update(Json::JsonItem &values,
+HanamiSqlTable::update(JsonItem &values,
                        const Kitsunemimi::Hanami::UserContext &userContext,
                        std::vector<RequestCondition> &conditions,
                        ErrorContainer &error)

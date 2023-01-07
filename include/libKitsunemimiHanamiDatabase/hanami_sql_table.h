@@ -52,15 +52,15 @@ public:
     HanamiSqlTable(Kitsunemimi::Sakura::SqlDatabase* db);
     virtual ~HanamiSqlTable();
 
-    bool add(Json::JsonItem &values,
+    bool add(JsonItem &values,
              const Kitsunemimi::Hanami::UserContext &userContext,
              Kitsunemimi::ErrorContainer &error);
-    bool get(Kitsunemimi::Json::JsonItem &result,
+    bool get(JsonItem &result,
              const Kitsunemimi::Hanami::UserContext &userContext,
              std::vector<RequestCondition> &conditions,
              Kitsunemimi::ErrorContainer &error,
              const bool showHiddenValues = false);
-    bool update(Kitsunemimi::Json::JsonItem &values,
+    bool update(JsonItem &values,
                 const Kitsunemimi::Hanami::UserContext &userContext,
                 std::vector<RequestCondition> &conditions,
                 Kitsunemimi::ErrorContainer &error);
